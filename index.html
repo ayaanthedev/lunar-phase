@@ -12,13 +12,19 @@
       }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         min-height: 100vh;
-        background: linear-gradient(135deg, #0f1729 0%, #1a2332 50%, #0d1b2a 100%);
+        background: linear-gradient(
+          135deg,
+          #0f1729 0%,
+          #1a2332 50%,
+          #0d1b2a 100%
+        );
         color: #f0f0f0;
         text-align: center;
         padding: 20px;
@@ -32,8 +38,7 @@
         backdrop-filter: blur(10px);
         border-radius: 30px;
         padding: 40px 30px;
-        box-shadow: 
-          0 8px 32px rgba(0, 0, 0, 0.3),
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
           inset 0 1px 0 rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.05);
       }
@@ -63,17 +68,23 @@
         transform: translate(-50%, -50%);
         width: 300px;
         height: 300px;
-        background: radial-gradient(circle, rgba(200, 220, 255, 0.15) 0%, transparent 70%);
+        background: radial-gradient(
+          circle,
+          rgba(200, 220, 255, 0.15) 0%,
+          transparent 70%
+        );
         border-radius: 50%;
         animation: pulse 4s ease-in-out infinite;
       }
 
       @keyframes pulse {
-        0%, 100% { 
+        0%,
+        100% {
           transform: translate(-50%, -50%) scale(1);
           opacity: 0.5;
         }
-        50% { 
+
+        50% {
           transform: translate(-50%, -50%) scale(1.1);
           opacity: 0.8;
         }
@@ -84,10 +95,8 @@
         width: 280px;
         height: 280px;
         border-radius: 50%;
-        box-shadow: 
-          0 0 60px rgba(200, 220, 255, 0.3),
-          0 0 100px rgba(200, 220, 255, 0.1),
-          inset 0 0 20px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 0 60px rgba(200, 220, 255, 0.3),
+          0 0 100px rgba(200, 220, 255, 0.1), inset 0 0 20px rgba(0, 0, 0, 0.3);
         z-index: 1;
         object-fit: cover;
         border: 2px solid rgba(255, 255, 255, 0.1);
@@ -165,23 +174,57 @@
       .loading {
         color: #6a7a8f;
       }
+
+      .Github {
+        margin-top: 20px;
+        font-size: 0.85rem;
+      }
+
+      .Github a {
+        color: #c7d2e3;
+        text-decoration: none;
+        padding: 8px 16px;
+        border: 1px solid rgba(199, 210, 227, 0.4);
+        border-radius: 6px;
+        display: inline-block;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+
+      .Github a:hover {
+        color: #ffffff;
+        border-color: rgba(199, 210, 227, 0.8);
+        background: rgba(199, 210, 227, 0.1);
+        box-shadow: 0 0 20px rgba(199, 210, 227, 0.2);
+      }
+
+      .Github a:active {
+        transform: scale(0.95);
+      }
     </style>
   </head>
+
   <body>
     <div class="container">
       <h1>🌙 MOON PHASE</h1>
-      
+
       <div class="moon-container">
         <div class="moon-glow"></div>
-        <img class="moon-image" id="moon-image" src="" alt="Current Moon Phase" />
+        <img
+          class="moon-image"
+          id="moon-image"
+          src=""
+          alt="Current Moon Phase"
+        />
       </div>
-      
+
       <div class="phase-name" id="moon-phase">
         <span class="loading">Calculating...</span>
       </div>
-      
+
       <div class="illumination" id="illumination"></div>
-      
+
       <div class="info-section">
         <div class="moon-info" id="moon-info"></div>
         <div class="date-info" id="date-info"></div>
@@ -199,34 +242,40 @@
       </div>
 
       <div class="credit">Images courtesy of NASA/Goddard/LRO</div>
+      <div class="Github">
+        <a href="https://www.github.com/AyaanTheDev/lunar-phase" target="_blank"
+          >GitHub</a
+        >
+      </div>
     </div>
 
     <script>
       function getMoonPhase(date = new Date()) {
-        // More accurate moon phase calculation
         const year = date.getFullYear();
         const month = date.getMonth() + 1;
         const day = date.getDate();
 
-        // Calculate Julian Date
         let a = Math.floor((14 - month) / 12);
         let y = year + 4800 - a;
         let m = month + 12 * a - 3;
-        
-        let jd = day + Math.floor((153 * m + 2) / 5) + 365 * y + 
-                Math.floor(y / 4) - Math.floor(y / 100) + 
-                Math.floor(y / 400) - 32045;
 
-        // Known new moon reference (Jan 6, 2000)
+        let jd =
+          day +
+          Math.floor((153 * m + 2) / 5) +
+          365 * y +
+          Math.floor(y / 4) -
+          Math.floor(y / 100) +
+          Math.floor(y / 400) -
+          32045;
+
         const knownNewMoon = 2451550.1;
         const synodicMonth = 29.53058867;
-        
-        // Calculate moon age in days
+
         let age = (jd - knownNewMoon) % synodicMonth;
         if (age < 0) age += synodicMonth;
 
-        // Calculate illumination percentage
-        const illumination = (1 - Math.cos((age / synodicMonth) * 2 * Math.PI)) / 2 * 100;
+        const illumination =
+          ((1 - Math.cos((age / synodicMonth) * 2 * Math.PI)) / 2) * 100;
 
         let phaseName = "";
         let imageUrl = "";
@@ -235,80 +284,92 @@
 
         if (age < 1.84566) {
           phaseName = "New Moon";
-          imageUrl = "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_new.1933_print.jpg";
-          info = "The Moon is between Earth and the Sun. Not visible in the sky.";
+          imageUrl =
+            "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_new.1933_print.jpg";
+          info =
+            "The Moon is between Earth and the Sun. Not visible in the sky.";
           cycle = "Beginning";
         } else if (age < 5.53699) {
           phaseName = "Waxing Crescent";
-          imageUrl = "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_waxing_crescent.2028_print.jpg";
+          imageUrl =
+            "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_waxing_crescent.2028_print.jpg";
           info = "Visible toward the southwest in early evening.";
           cycle = "Growing";
         } else if (age < 9.22831) {
           phaseName = "First Quarter";
-          imageUrl = "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_first_quarter.2091_print.jpg";
+          imageUrl =
+            "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_first_quarter.2091_print.jpg";
           info = "High in the southern sky in early evening.";
           cycle = "Growing";
         } else if (age < 12.91963) {
           phaseName = "Waxing Gibbous";
-          imageUrl = "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_waxing_gibbous.2158_print.jpg";
+          imageUrl =
+            "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_waxing_gibbous.2158_print.jpg";
           info = "Visible to the southeast in early evening.";
           cycle = "Growing";
         } else if (age < 16.61096) {
           phaseName = "Full Moon";
-          imageUrl = "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_full.1571_print.jpg";
-          info = "Rises at sunset, high in the sky around midnight. Visible all night.";
+          imageUrl =
+            "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_full.1571_print.jpg";
+          info =
+            "Rises at sunset, high in the sky around midnight. Visible all night.";
           cycle = "Peak";
         } else if (age < 20.30228) {
           phaseName = "Waning Gibbous";
-          imageUrl = "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_waning_gibbous.2403_print.jpg";
+          imageUrl =
+            "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_waning_gibbous.2403_print.jpg";
           info = "Rises after sunset, visible to the southwest after sunrise.";
           cycle = "Shrinking";
         } else if (age < 23.99361) {
           phaseName = "Last Quarter";
-          imageUrl = "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_third_quarter.1755_print.jpg";
+          imageUrl =
+            "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_third_quarter.1755_print.jpg";
           info = "Rises around midnight, visible to the south after sunrise.";
           cycle = "Shrinking";
         } else if (age < 27.68493) {
           phaseName = "Waning Crescent";
-          imageUrl = "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_waning_crescent.1810_print.jpg";
+          imageUrl =
+            "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_waning_crescent.1810_print.jpg";
           info = "Low to the east before sunrise.";
           cycle = "Shrinking";
         } else {
           phaseName = "New Moon";
-          imageUrl = "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_new.1933_print.jpg";
-          info = "The Moon is between Earth and the Sun. Not visible in the sky.";
+          imageUrl =
+            "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_new.1933_print.jpg";
+          info =
+            "The Moon is between Earth and the Sun. Not visible in the sky.";
           cycle = "Beginning";
         }
 
-        return { 
-          phaseName, 
-          imageUrl, 
-          info, 
+        return {
+          phaseName,
+          imageUrl,
+          info,
           age: age.toFixed(1),
           illumination: illumination.toFixed(1),
-          cycle
+          cycle,
         };
       }
 
-      // Format date nicely
       function formatDate(date) {
-        const options = { 
-          weekday: 'long', 
-          year: 'numeric', 
-          month: 'long', 
-          day: 'numeric' 
+        const options = {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
         };
-        return date.toLocaleDateString('en-US', options);
+        return date.toLocaleDateString("en-US", options);
       }
 
-      // Update the display
       const moon = getMoonPhase();
       const today = new Date();
 
       document.getElementById("moon-phase").textContent = moon.phaseName;
       document.getElementById("moon-image").src = moon.imageUrl;
       document.getElementById("moon-info").textContent = moon.info;
-      document.getElementById("illumination").textContent = `${moon.illumination}%`;
+      document.getElementById(
+        "illumination"
+      ).textContent = `${moon.illumination}%`;
       document.getElementById("date-info").textContent = formatDate(today);
       document.getElementById("moon-age").textContent = `${moon.age} days`;
       document.getElementById("moon-cycle").textContent = moon.cycle;
