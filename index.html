@@ -105,20 +105,38 @@
     pointer-events: none;
     z-index: 0;
     mix-blend-mode: screen;
+    /* layered radial gradients for richer glow */
     background: radial-gradient(
         circle at center,
-        var(--glow) 0%,
-        rgba(140, 170, 255, 0.15) 18%,
-        rgba(140, 170, 255, 0.06) 38%,
+        rgba(140, 170, 255, var(--moon-glow)) 0%,
+        rgba(140, 170, 255, calc(var(--moon-glow) * 0.6)) 18%,
+        rgba(140, 170, 255, calc(var(--moon-glow) * 0.25)) 38%,
         transparent 62%
       ),
       radial-gradient(
         circle at center,
-        rgba(250, 204, 21, 0.12) 0%,
+        rgba(250, 204, 21, calc(var(--moon-glow) * 0.12)) 0%,
         transparent 28%
       );
-    filter: blur(18px);
+    filter: blur(20px);
+    transition: all 0.4s ease; /* smooth hover transition */
     animation: pulse 4.5s ease-in-out infinite;
+  }
+
+  .moon-container:hover .moon-glow {
+    background: radial-gradient(
+        circle at center,
+        rgba(140, 170, 255, 0.45) 0%,
+        rgba(140, 170, 255, 0.35) 18%,
+        rgba(140, 170, 255, 0.2) 38%,
+        transparent 62%
+      ),
+      radial-gradient(
+        circle at center,
+        rgba(250, 204, 21, 0.2) 0%,
+        transparent 28%
+      );
+    filter: blur(25px);
   }
 
   @keyframes pulse {
