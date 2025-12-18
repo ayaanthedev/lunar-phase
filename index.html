@@ -31,6 +31,9 @@
 
     
     <style>
+      :root {
+        --moon-glow: 0.15; /* default glow alpha 0..1 */
+      }
       * {
         margin: 0;
         padding: 0;
@@ -91,28 +94,40 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%);
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(
-          circle,
-          rgba(200, 220, 255, 0.15) 0%,
-          transparent 70%
-        );
+        transform: translate(-50%, -50%) scale(1);
+        width: 360px;
+        height: 360px;
         border-radius: 50%;
-        animation: pulse 4s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+        mix-blend-mode: screen;
+        /* layered radial gradients for a richer glow; alpha controlled by --moon-glow */
+        background: radial-gradient(
+            circle at center,
+            rgba(200, 220, 255, var(--moon-glow)) 0%,
+            rgba(200, 220, 255, calc(var(--moon-glow) * 0.6)) 18%,
+            rgba(200, 220, 255, calc(var(--moon-glow) * 0.25)) 38%,
+            transparent 62%
+          ),
+          radial-gradient(
+            circle at center,
+            rgba(255, 230, 180, calc(var(--moon-glow) * 0.12)) 0%,
+            transparent 28%
+          );
+        filter: blur(18px);
+        animation: pulse 4.5s ease-in-out infinite;
       }
 
       @keyframes pulse {
         0%,
         100% {
           transform: translate(-50%, -50%) scale(1);
-          opacity: 0.5;
+          opacity: 0.55;
         }
 
         50% {
-          transform: translate(-50%, -50%) scale(1.1);
-          opacity: 0.8;
+          transform: translate(-50%, -50%) scale(1.08);
+          opacity: 0.95;
         }
       }
 
@@ -121,11 +136,12 @@
         width: 280px;
         height: 280px;
         border-radius: 50%;
-        box-shadow: 0 0 60px rgba(200, 220, 255, 0.3),
-          0 0 100px rgba(200, 220, 255, 0.1), inset 0 0 20px rgba(0, 0, 0, 0.3);
-        z-index: 1;
+        z-index: 2;
         object-fit: cover;
-        border: 2px solid rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.08);
+        /* stronger, warmer inner + outer glow to pair with the soft halo */
+        box-shadow: 0 0 30px rgba(200, 220, 255, 0.45),
+          0 0 80px rgba(200, 220, 255, 0.18), inset 0 0 18px rgba(0, 0, 0, 0.35);
       }
 
       .phase-name {
@@ -398,6 +414,13 @@
       ).textContent = `${moon.illumination}%`;
       document.getElementById("date-info").textContent = formatDate(today);
       document.getElementById("moon-age").textContent = `${moon.age} days`;
+      // map illumination (0-100) to a CSS alpha for the glow and set variable
+      (function setMoonGlow() {
+        const illum = parseFloat(moon.illumination) || 0;
+        // map to a reasonable visible range: 0.12 (dim) -> 0.85 (bright)
+        const glow = Math.min(0.95, 0.12 + (illum / 100) * 0.83);
+        document.documentElement.style.setProperty("--moon-glow", glow.toFixed(3));
+      })();
       document.getElementById("moon-cycle").textContent = moon.cycle;
     </script>
   </body>
