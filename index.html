@@ -13,263 +13,303 @@
 
     <!-- Android / PWA -->
     <link rel="manifest" href="assets/site.webmanifest" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="192x192"
-      href="assets/android-chrome-192x192.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="512x512"
-      href="assets/android-chrome-512x512.png"
-    />
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/android-chrome-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/android-chrome-512x512.png" />
     <meta name="google-site-verification" content="QMSfgItlXo66mS9_3IaIGVzjiPCa4LhD065LFCtflEo" />
 
+    <meta
+      name="keywords"
+      content="
+moon phase today,
+current moon phase,
+moon phase right now,
+lunar phase today,
+current lunar phase,
+moon illumination,
+moon age today,
+moon phase calculator,
+lunar phases of the moon,
+moon phase tonight,
+today's moon phase,
+moon phase information,
+NASA moon phase images
+"
+    />
+
     <title>Moon Phase Today</title>
-    <meta name="description" content="Check the current moon phase, illumination, and age with a glowing moon effect." />
+    <meta
+      name="description"
+      content="Check the current moon phase, illumination, and age with a glowing moon effect."
+    />
 
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Moon Phase Today",
+        "description": "Check the current moon phase, lunar illumination percentage, and moon age with real astronomical calculations and NASA imagery.",
+        "applicationCategory": "ScienceApplication",
+        "operatingSystem": "All",
+        "browserRequirements": "Requires JavaScript",
+        "url": "https://lunar-phase.pages.dev",
+        "creator": {
+          "@type": "Person",
+          "name": "AyaanTheDev"
+        },
+        "about": {
+          "@type": "Thing",
+          "name": "Lunar Phases",
+          "description": "The changing appearance of the Moon as seen from Earth, including illumination, age, and phase name."
+        },
+        "keywords": [
+          "moon phase today",
+          "current moon phase",
+          "lunar phase today",
+          "moon illumination",
+          "moon age",
+          "lunar phases of the moon"
+        ],
+        "isAccessibleForFree": true
+      }
+    </script>
 
-    
-<style>
-  :root {
-    --moon-glow: 0.25; /* adjusted to match your glow */
-    --bg-gradient-start: #0B1220;
-    --bg-gradient-end: #141E33;
-    --card-bg: #1A2438;
-    --card-border: rgba(255,255,255,0.06);
-    --text-main: #E5E7EB;
-    --text-secondary: #9CA3AF;
-    --accent: #FACC15;
-    --glow: rgba(140, 170, 255, 0.25);
-    --font-mono: "Fira Code", "Courier New", monospace;
-  }
+    <style>
+      :root {
+        --moon-glow: 0.25; /* adjusted to match your glow */
+        --bg-gradient-start: #0b1220;
+        --bg-gradient-end: #141e33;
+        --card-bg: #1a2438;
+        --card-border: rgba(255, 255, 255, 0.06);
+        --text-main: #e5e7eb;
+        --text-secondary: #9ca3af;
+        --accent: #facc15;
+        --glow: rgba(140, 170, 255, 0.25);
+        --font-mono: "Fira Code", "Courier New", monospace;
+      }
 
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Oxygen, Ubuntu, Cantarell, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, var(--bg-gradient-start) 50%, var(--bg-gradient-end) 100%);
-    color: var(--text-main);
-    text-align: center;
-    padding: 20px;
-    overflow-x: hidden;
-  }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+          Cantarell, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: linear-gradient(
+          135deg,
+          var(--bg-gradient-start) 50%,
+          var(--bg-gradient-end) 100%
+        );
+        color: var(--text-main);
+        text-align: center;
+        padding: 20px;
+        overflow-x: hidden;
+      }
 
-  .container {
-    max-width: 500px;
-    width: 100%;
-    background: var(--card-bg);
-    backdrop-filter: blur(10px);
-    border-radius: 30px;
-    padding: 40px 30px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    border: 1px solid var(--card-border);
-  }
+      .container {
+        max-width: 500px;
+        width: 100%;
+        background: var(--card-bg);
+        backdrop-filter: blur(10px);
+        border-radius: 30px;
+        padding: 40px 30px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        border: 1px solid var(--card-border);
+      }
 
-  h1 {
-    font-size: 2.5rem;
-    font-weight: 300;
-    letter-spacing: 2px;
-    margin-bottom: 40px;
-    background: linear-gradient(135deg, var(--text-main) 0%, var(--text-secondary) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+      h1 {
+        font-size: 2.5rem;
+        font-weight: 300;
+        letter-spacing: 2px;
+        margin-bottom: 40px;
+        background: linear-gradient(135deg, var(--text-main) 0%, var(--text-secondary) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
 
-  .moon-container {
-    position: relative;
-    width: 280px;
-    height: 280px;
-    margin: 0 auto 30px;
-  }
+      .moon-container {
+        position: relative;
+        width: 280px;
+        height: 280px;
+        margin: 0 auto 30px;
+      }
 
-  .moon-glow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1);
-    width: 360px;
-    height: 360px;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 0;
-    mix-blend-mode: screen;
-    /* layered radial gradients for richer glow */
-    background: radial-gradient(
-        circle at center,
-        rgba(140, 170, 255, var(--moon-glow)) 0%,
-        rgba(140, 170, 255, calc(var(--moon-glow) * 0.6)) 18%,
-        rgba(140, 170, 255, calc(var(--moon-glow) * 0.25)) 38%,
-        transparent 62%
-      ),
-      radial-gradient(
-        circle at center,
-        rgba(250, 204, 21, calc(var(--moon-glow) * 0.12)) 0%,
-        transparent 28%
-      );
-    filter: blur(20px);
-    transition: all 0.4s ease; /* smooth hover transition */
-    animation: pulse 4.5s ease-in-out infinite;
-  }
+      .moon-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1);
+        width: 360px;
+        height: 360px;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 0;
+        mix-blend-mode: screen;
+        /* layered radial gradients for richer glow */
+        background: radial-gradient(
+            circle at center,
+            rgba(140, 170, 255, var(--moon-glow)) 0%,
+            rgba(140, 170, 255, calc(var(--moon-glow) * 0.6)) 18%,
+            rgba(140, 170, 255, calc(var(--moon-glow) * 0.25)) 38%,
+            transparent 62%
+          ),
+          radial-gradient(
+            circle at center,
+            rgba(250, 204, 21, calc(var(--moon-glow) * 0.12)) 0%,
+            transparent 28%
+          );
+        filter: blur(20px);
+        transition: all 0.4s ease; /* smooth hover transition */
+        animation: pulse 4.5s ease-in-out infinite;
+      }
 
-  .moon-container:hover .moon-glow {
-    background: radial-gradient(
-        circle at center,
-        rgba(140, 170, 255, 0.45) 0%,
-        rgba(140, 170, 255, 0.35) 18%,
-        rgba(140, 170, 255, 0.2) 38%,
-        transparent 62%
-      ),
-      radial-gradient(
-        circle at center,
-        rgba(250, 204, 21, 0.2) 0%,
-        transparent 28%
-      );
-    filter: blur(25px);
-  }
+      .moon-container:hover .moon-glow {
+        background: radial-gradient(
+            circle at center,
+            rgba(140, 170, 255, 0.45) 0%,
+            rgba(140, 170, 255, 0.35) 18%,
+            rgba(140, 170, 255, 0.2) 38%,
+            transparent 62%
+          ),
+          radial-gradient(circle at center, rgba(250, 204, 21, 0.2) 0%, transparent 28%);
+        filter: blur(25px);
+      }
 
-  @keyframes pulse {
-    0%, 100% {
-      transform: translate(-50%, -50%) scale(1);
-      opacity: 0.55;
-    }
-    50% {
-      transform: translate(-50%, -50%) scale(1.08);
-      opacity: 0.95;
-    }
-  }
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: translate(-50%, -50%) scale(1);
+          opacity: 0.55;
+        }
+        50% {
+          transform: translate(-50%, -50%) scale(1.08);
+          opacity: 0.95;
+        }
+      }
 
-  .moon-image {
-    position: relative;
-    width: 280px;
-    height: 280px;
-    border-radius: 50%;
-    z-index: 2;
-    object-fit: cover;
-    border: 2px solid var(--card-border);
-    box-shadow: 0 0 30px var(--glow),
-      0 0 80px rgba(140, 170, 255, 0.18), inset 0 0 18px rgba(0, 0, 0, 0.35);
-  }
+      .moon-image {
+        position: relative;
+        width: 280px;
+        height: 280px;
+        border-radius: 50%;
+        z-index: 2;
+        object-fit: cover;
+        border: 2px solid var(--card-border);
+        box-shadow: 0 0 30px var(--glow), 0 0 80px rgba(140, 170, 255, 0.18),
+          inset 0 0 18px rgba(0, 0, 0, 0.35);
+      }
 
-  .phase-name {
-    font-size: 2rem;
-    font-weight: 300;
-    margin-bottom: 15px;
-    letter-spacing: 1px;
-    color: var(--text-main);
-  }
+      .phase-name {
+        font-size: 2rem;
+        font-weight: 300;
+        margin-bottom: 15px;
+        letter-spacing: 1px;
+        color: var(--text-main);
+      }
 
-  .illumination {
-    font-size: 3.5rem;
-    font-weight: 200;
-    margin-bottom: 10px;
-    background: linear-gradient(135deg, var(--accent) 0%, #fff56b 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+      .illumination {
+        font-size: 3.5rem;
+        font-weight: 200;
+        margin-bottom: 10px;
+        background: linear-gradient(135deg, var(--accent) 0%, #fff56b 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
 
-  .info-section {
-    margin-top: 25px;
-    padding-top: 25px;
-    border-top: 1px solid var(--card-border);
-  }
+      .info-section {
+        margin-top: 25px;
+        padding-top: 25px;
+        border-top: 1px solid var(--card-border);
+      }
 
-  .moon-info {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--text-secondary);
-    margin-bottom: 15px;
-  }
+      .moon-info {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: var(--text-secondary);
+        margin-bottom: 15px;
+      }
 
-  .date-info {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    margin-top: 10px;
-  }
+      .date-info {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
 
-  .stats {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 25px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-  }
+      .stats {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+      }
 
-  .stat {
-    text-align: center;
-  }
+      .stat {
+        text-align: center;
+      }
 
-  .stat-label {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-secondary);
-    margin-bottom: 5px;
-  }
+      .stat-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text-secondary);
+        margin-bottom: 5px;
+      }
 
-  .stat-value {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: var(--text-main);
-    font-family: var(--font-mono);
-    letter-spacing: 0.05em;
-  }
+      .stat-value {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: var(--text-main);
+        font-family: var(--font-mono);
+        letter-spacing: 0.05em;
+      }
 
-  .credit {
-    margin-top: 30px;
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    letter-spacing: 0.5px;
-  }
+      .credit {
+        margin-top: 30px;
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        letter-spacing: 0.5px;
+      }
 
-  .loading {
-    color: var(--text-secondary);
-  }
+      .loading {
+        color: var(--text-secondary);
+      }
 
-  .Github {
-    margin-top: 20px;
-    font-size: 0.85rem;
-  }
+      .Github {
+        margin-top: 20px;
+        font-size: 0.85rem;
+      }
 
-  .Github a {
-    color: var(--text-secondary);
-    text-decoration: none;
-    padding: 8px 16px;
-    border: 1px solid rgba(156, 163, 175, 0.4);
-    border-radius: 6px;
-    display: inline-block;
-    transition: all 0.3s ease;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-  }
+      .Github a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        padding: 8px 16px;
+        border: 1px solid rgba(156, 163, 175, 0.4);
+        border-radius: 6px;
+        display: inline-block;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
 
-  .Github a:hover {
-    color: var(--text-main);
-    border-color: rgba(156, 163, 175, 0.8);
-    background: rgba(156, 163, 175, 0.1);
-    box-shadow: 0 0 20px rgba(156, 163, 175, 0.2);
-  }
+      .Github a:hover {
+        color: var(--text-main);
+        border-color: rgba(156, 163, 175, 0.8);
+        background: rgba(156, 163, 175, 0.1);
+        box-shadow: 0 0 20px rgba(156, 163, 175, 0.2);
+      }
 
-  .Github a:active {
-    transform: scale(0.95);
-  }
-</style>
-
+      .Github a:active {
+        transform: scale(0.95);
+      }
+    </style>
   </head>
 
   <body>
@@ -278,12 +318,7 @@
 
       <div class="moon-container">
         <div class="moon-glow"></div>
-        <img
-          class="moon-image"
-          id="moon-image"
-          src=""
-          alt="Current Moon Phase"
-        />
+        <img class="moon-image" id="moon-image" src="" alt="Current Moon Phase" />
       </div>
 
       <div class="phase-name" id="moon-phase">
@@ -310,9 +345,7 @@
 
       <div class="credit">Images courtesy of NASA/Goddard/LRO</div>
       <div class="Github">
-        <a href="https://www.github.com/AyaanTheDev/lunar-phase" target="_blank"
-          >GitHub</a
-        >
+        <a href="https://www.github.com/AyaanTheDev/lunar-phase" target="_blank">GitHub</a>
       </div>
     </div>
 
@@ -341,8 +374,7 @@
         let age = (jd - knownNewMoon) % synodicMonth;
         if (age < 0) age += synodicMonth;
 
-        const illumination =
-          ((1 - Math.cos((age / synodicMonth) * 2 * Math.PI)) / 2) * 100;
+        const illumination = ((1 - Math.cos((age / synodicMonth) * 2 * Math.PI)) / 2) * 100;
 
         let phaseName = "";
         let imageUrl = "";
@@ -353,8 +385,7 @@
           phaseName = "New Moon";
           imageUrl =
             "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_new.1933_print.jpg";
-          info =
-            "The Moon is between Earth and the Sun. Not visible in the sky.";
+          info = "The Moon is between Earth and the Sun. Not visible in the sky.";
           cycle = "Beginning";
         } else if (age < 5.53699) {
           phaseName = "Waxing Crescent";
@@ -378,8 +409,7 @@
           phaseName = "Full Moon";
           imageUrl =
             "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_full.1571_print.jpg";
-          info =
-            "Rises at sunset, high in the sky around midnight. Visible all night.";
+          info = "Rises at sunset, high in the sky around midnight. Visible all night.";
           cycle = "Peak";
         } else if (age < 20.30228) {
           phaseName = "Waning Gibbous";
@@ -403,8 +433,7 @@
           phaseName = "New Moon";
           imageUrl =
             "https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/phase_new.1933_print.jpg";
-          info =
-            "The Moon is between Earth and the Sun. Not visible in the sky.";
+          info = "The Moon is between Earth and the Sun. Not visible in the sky.";
           cycle = "Beginning";
         }
 
@@ -434,9 +463,7 @@
       document.getElementById("moon-phase").textContent = moon.phaseName;
       document.getElementById("moon-image").src = moon.imageUrl;
       document.getElementById("moon-info").textContent = moon.info;
-      document.getElementById(
-        "illumination"
-      ).textContent = `${moon.illumination}%`;
+      document.getElementById("illumination").textContent = `${moon.illumination}%`;
       document.getElementById("date-info").textContent = formatDate(today);
       document.getElementById("moon-age").textContent = `${moon.age} days`;
       // map illumination (0-100) to a CSS alpha for the glow and set variable
